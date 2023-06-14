@@ -28,15 +28,21 @@ def img_to_base64(img):
     img_str = base64.b64encode(buffered.getvalue()).decode()
     return img_str
 
-def send_image_to_backend(img_str):
-    # # Replace with the actual URL of your backend API
-    # url = "http://backend-api-url/path"
-    # data = {
-    #     "image": img_str,
-    #       "title": "ABA"
-    # }
-    # response = requests.post(url, data=json.dumps(data))
-    return response.json() # assuming the backend returns a JSON response
+# New function to send the request
+def send_request(img_str, user_text):
+    url = "https://bookcover-astv2a37ja-ew.a.run.app/predict"
+    print(base64.b64decode(img_str))
+    data = {
+        "image_arr": img_str,
+        "title": user_text
+    }
+    response = requests.put(url, json=data, headers={'Content-Type': 'application/json'})
+    # print("yes")
+    # print(response.json())
+    # print(response.status_code)
+    return response.json()
+
+
 
 # Create two columns
 col1, col2 = st.columns(2)
@@ -51,7 +57,7 @@ if uploaded_file != None:
     st.image(image, caption='Uploaded Image.', use_column_width=True)
 
     # Resize the image to 100x100 pixels
-    resized_img = image.resize((100,100))
+    resized_img = image.resize((10,10))
     # # Convert image to base64 and send to backend
     # img_str = img_to_base64(resized_img)
     image_array = np.array(resized_img)
@@ -85,7 +91,6 @@ if url != '':
         # # Convert image to base64 and send to backend
         # img_str = img_to_base64(resized_img)
         image_array = np.array(resized_img)
-        print(image_array)
         # Convert numpy array to bytes
         bytes_data = np_to_bytes(image_array)
 
@@ -105,6 +110,11 @@ if url != '':
 # Use text_input to get text from user
 user_text = st.text_input("Please enter some text", '')
 
-# Use the text entered by the user
-if user_text:
-    print(user_text)
+# When the button is pressed, send the request
+if st.button('Send to API'):
+    print(img_str)
+    if img_str and user_text:
+        response = send_request(img_str, user_text)
+        st.write(response)
+    else:
+        st.write("Please enter both an image and text before pressing the button.")
