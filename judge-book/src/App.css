@@ -1,0 +1,11 @@
+.App {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.App-header {
+  font-weight: bold;
+  font-size: 24px;
+  color: black;
+}
