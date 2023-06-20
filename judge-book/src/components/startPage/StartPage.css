@@ -6,6 +6,12 @@
   color: black;
 }
 
+.uploadButton {
+  display: 'flex';
+  justify-content: 'center';
+  font-size: 14px;
+  color: black;
+}
 .gap {
   padding-top: 20px;
 }

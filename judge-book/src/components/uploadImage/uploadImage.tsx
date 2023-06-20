@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import UploadIcon from '@mui/icons-material/Upload';
 import { Button } from "@mui/material";
-function UploadImage({ setImage }: { setImage: (image: string | null) => void }) {
+function UploadImage({ setImage, setBase64Image }: { setImage: (image: string | null) => void ,setBase64Image: (image: string | null) => void }) {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
   const handleChange = async (
     event: React.ChangeEvent<HTMLInputElement>
   ): Promise<any> => {
@@ -10,27 +12,24 @@ function UploadImage({ setImage }: { setImage: (image: string | null) => void })
     if (files && files.length > 0) {
       const fileLoaded = URL.createObjectURL(files[0]);
       setImage(fileLoaded);
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        if (e.target) {
+          setBase64Image(e.target.result as string);
+        }
+      };
+      reader.readAsDataURL(files[0]);
     }
   };
 
-  const getHeightAndWidthFromDataUrl = (dataURL: string) =>
-    new Promise<{ height: number; width: number }>((resolve) => {
-      const img = new Image();
-      img.onload = () => {
-        resolve({
-          height: img.height,
-          width: img.width,
-        });
-      };
-      img.src = dataURL;
-    });
-
-  // Get dimensions
-  const someFunction = async (file: any) => {
-    console.log('file: ', file);
-    const dimensions = await getHeightAndWidthFromDataUrl(file);
-    return dimensions;
-  };
+  useEffect(() => {
+    if (canvasRef.current) {
+      const context = canvasRef.current.getContext('2d');
+      if (context) {
+        context.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+      }
+    }
+  }, [setImage]);
 
   return (
     <div>
