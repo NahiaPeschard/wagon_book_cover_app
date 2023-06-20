@@ -11,6 +11,7 @@ function StartPage() {
   const [result, setResult] = useState<{ "30_category": string[], "8_cat": string[] } | null>(null);
   const [predictClicked, setPredictClicked] = useState(false);
   const [bookTitle, setBookTitle] = useState<string>("");
+  const [isReport, setIsReport] = useState<boolean>(false);
 
   const handlePredict = React.useCallback(async ()  => {
     console.log("clicked", base64Image?.length);
@@ -63,15 +64,53 @@ function StartPage() {
     // Set predictClicked back to false
     setPredictClicked(false);
     setBookTitle("");
+    setIsReport(false);
   };
 
+  const handleReport = () => {
+    // Add your report handling logic here...
+    console.log("Report button clicked.");
+  };
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setBookTitle(event.target.value);
+    console.log(bookTitle);
   };
+
+  const handlePredict1 = React.useCallback(async ()  => {
+    console.log("clicked", base64Image?.length);
+
+    const url = "https://bookcover-astv2a37ja-ew.a.run.app/predict";
+
+    const data = {
+      image_arr: base64Image,
+      title: bookTitle,
+    };
+    console.log(bookTitle);
+    const response = await fetch(url, {
+      method: "PUT", // or 'PUT'
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*'
+      },
+      mode: 'cors', // Add this mode to enable CORS
+      body: JSON.stringify(data)
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const result = await response.json();
+    console.log(result);
+    setResult(result);
+    // Assuming the response contains an 'image' property with the image url
+    setImgSrc(result.image);
+    setPredictClicked(true);
+    setIsReport(true);
+  }, [base64Image, bookTitle]);
 
   return (
     <>
-      {predictClicked && image ? (
+      {predictClicked && image? (
         <>
           <div style={{ display: 'flex', justifyContent: 'center', paddingTop: '80px' }}>
             <img
@@ -101,26 +140,40 @@ function StartPage() {
                 </div>
                 </>
       ) : (
-        <><div style={{ display: 'flex', justifyContent: 'center' }}>
-                <TextField
-                  label="Book Title"
-                  variant="outlined"
-                  size="small"
-                  value={bookTitle}
-                  onChange={handleInputChange} />
-              </div>
-              <div className="gap"></div>
-      <div style={{ display: 'flex',  justifyContent: 'center'}}>
-                <Button
+        isReport ? (
+          <div style={{ display: 'flex',  justifyContent: 'center'}}>
+            <Button
+              variant="contained"
+              color="primary"
+              size="small"
+              onClick={handleReport}
+            >
+              Report
+            </Button>
+          </div>
+        ) : (
+          <>
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <TextField
+                label="Book Title"
+                variant="outlined"
+                size="small"
+                value={bookTitle}
+                onChange={handleInputChange} />
+            </div>
+            <div className="gap"></div>
+            <div style={{ display: 'flex',  justifyContent: 'center'}}>
+              <Button
                 variant="contained"
                 color="primary"
-                size="small"
-                onClick={handlePredict}
-                >
+                size="medium"
+                onClick={handlePredict1}
+              >
                 Predict
-                </Button>
-                </div>
-                </>
+              </Button>
+            </div>
+          </>
+        )
       )}
       <div className="gap"></div>
       <div style={{ display: 'flex',  justifyContent: 'center'}}>
@@ -161,7 +214,7 @@ function StartPage() {
             <Button
               variant="contained"
               color="primary"
-              size="small"
+              size="medium"
               onClick={handlePredict}
             >
               Predict
