@@ -34,7 +34,7 @@ const ReportDialog = ({ open, handleClose, handleReportSubmit }: ReportDialogPro
     <div>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Feedback</DialogTitle>
-        <DialogContent style={{ width: 300, minHeight: 100 }}>
+        <DialogContent style={{minHeight: 100 }}>
           <Select
             value={category}
             displayEmpty
@@ -53,7 +53,7 @@ const ReportDialog = ({ open, handleClose, handleReportSubmit }: ReportDialogPro
         <DialogActions>
           <Button
             variant="contained"
-            color="secondary"
+            color="error"
             size="small"
             onClick={handleClose}
           >
@@ -69,7 +69,7 @@ const ReportDialog = ({ open, handleClose, handleReportSubmit }: ReportDialogPro
           </Button>
         </DialogActions>
       </Dialog>
-      <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>
+      <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}  anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
         <MuiAlert onClose={handleCloseSnackbar} severity="success" elevation={6} variant="filled">
           Feedback submitted successfully
         </MuiAlert>

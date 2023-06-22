@@ -45,7 +45,8 @@ function UploadImageByUrl({ setImage, setBase64Image }: ImageProps) {
         color="primary"
         startIcon={<UploadIcon />}
         onClick={handleUpload}
-        size= "small"
+        size= "medium"
+        sx={{ textTransform: 'none' }}
       >
         Upload from url link
       </Button>

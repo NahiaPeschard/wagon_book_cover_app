@@ -10,7 +10,8 @@ function App() {
     </div>
     <div>
         <StartPage />
-      </div></>
+    </div>
+    </>
   );
 }
 
