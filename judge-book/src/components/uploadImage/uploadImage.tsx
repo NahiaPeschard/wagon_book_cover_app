@@ -47,7 +47,7 @@ function UploadImage({ setImage, setBase64Image }: Props) {
         startIcon={<UploadIcon />}
         sx={{ textTransform: 'none' }}
       >
-        Upload From files
+        Upload from files
         <input type="file" hidden onChange={handleChange}
         accept="image/jpg,.gif,.png,.svg,.webp audio/wav,.mp3"/>
       </Button>

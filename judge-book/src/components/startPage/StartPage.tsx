@@ -121,7 +121,7 @@ function StartPage() {
                 </div>
                 {retryCount < 2 &&
                 <><div className="gap"></div><div style={{ display: 'flex', justifyContent: 'center' }}>
-                  Try again {2 - retryCount} times left
+                  Number of attempts remaining: {2 - retryCount}
                 </div></>
 }
                 </>
@@ -181,18 +181,17 @@ function StartPage() {
             <UploadImageByUrl setImage={setImage} setBase64Image={setBase64Image} />
           </div>
           <div className="gap"></div>
-          <div style={{ display: 'flex', justifyContent: 'center'}}>
-            <Button
-              variant="contained"
-              color="primary"
-              size="medium"
-              onClick={handlePredict}
-              sx={{ textTransform: 'none' }}
-            >
-              Predict
-            </Button>
-          </div>
-          <div className='gap'></div>
+          {image &&           <><div style={{ display: 'flex', justifyContent: 'center' }}>
+              <Button
+                variant="contained"
+                color="primary"
+                size="medium"
+                onClick={handlePredict}
+                sx={{ textTransform: 'none' }}
+              >
+                Predict
+              </Button>
+            </div><div className='gap'></div></>}
         </>
       )}
     </>
