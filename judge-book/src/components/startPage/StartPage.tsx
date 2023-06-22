@@ -127,7 +127,7 @@ function StartPage() {
                 </>
       ) : (
         <><div style={{ display: 'flex', justifyContent: 'center' }}>
-                  {result && `Prediction: ${result["30_category"][0]}`}
+                  {result && `Prediction: ${result["30_category"][2]}`}
                 </div><div style={{ display: 'flex', justifyContent: 'center', paddingTop: '20px'}}>
                     <ReportDialog
                       open={reportDialogOpen}
