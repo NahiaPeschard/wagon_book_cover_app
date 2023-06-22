@@ -34,7 +34,6 @@ function StartPage() {
         });
 
         if (!response.ok) {
-          console.log("In");
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const result = await response.json();
@@ -69,9 +68,6 @@ function StartPage() {
 
   const handleReportSubmit = (feedback: string, category: string) => {
     // Handle the submission of the report
-    // This is just an example, you may want to send this data to your server
-    console.log("Feedback:", feedback);
-    console.log("Category:", category);
     // Close the dialog
     setReportDialogOpen(false);
   };
