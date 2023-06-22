@@ -43,8 +43,9 @@ function UploadImage({ setImage, setBase64Image }: Props) {
       <Button
         component="label"
         variant="contained"
-        size="small"
+        size="medium"
         startIcon={<UploadIcon />}
+        sx={{ textTransform: 'none' }}
       >
         Upload From files
         <input type="file" hidden onChange={handleChange}
